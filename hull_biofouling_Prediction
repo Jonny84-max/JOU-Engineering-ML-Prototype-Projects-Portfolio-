@@ -29,8 +29,8 @@ def run():
     st.title("🚢 Ship Hull Biofouling Prediction & Hull Performance Optimization")
 
     st.write("""
-    This app predicts **biofouling severity** using logistic regression,
-    and provides **maintenance and safety recommendations**.
+    This app predicts biofouling severity using logistic regression,
+    and provides maintenance and safety recommendations.
     """)
 
 # Inputs
@@ -63,7 +63,7 @@ prediction = model.predict(input_data)[0]
 probs = model.predict_proba(input_data)[0]
 st.write("Prediction Probabilities:", probs)
 
-st.subheader("📌 Prediction Result")
+st.subheader(" Prediction Result")
 severity_map = {
     0: ("🟢 LOW", "green"),
     1: ("🟠 MODERATE", "orange"),
@@ -90,14 +90,14 @@ power_kw = power_required(res, vessel_speed) / 1000
 speed_loss = speed_loss_due_to_fouling(roughness, vessel_speed)
 fuel_tph = fuel_consumption_tph(power_kw)
 
-st.subheader("📈 Hull Performance Metrics")
+st.subheader(" Hull Performance Metrics")
 st.write(f"Resistance (N): {res:.2f}")
 st.write(f"Power Required (kW): {power_kw:.2f}")
 st.write(f"Speed after Fouling (kn): {speed_loss:.2f}")
 st.write(f"Fuel Consumption (t/hr): {fuel_tph:.4f}")
 
 # Plot chart
-st.subheader("📉 Vessel Speed Loss vs Hull Fouling")
+st.subheader("Vessel Speed Loss vs Hull Fouling")
 roughness_range = np.linspace(0.01, 0.2, 30)
 speed_after_fouling = [
     speed_loss_due_to_fouling(r, vessel_speed) for r in roughness_range
@@ -134,16 +134,16 @@ fuel_chart = alt.Chart(df_fuel).mark_line(point=True).encode(
     y=alt.Y("Fuel Consumption (t/hr)", title="Fuel Consumption (t/hr)")
 ).properties(
     height=400,
-    title="📊 Fuel Consumption vs Hull Fouling"
+    title=" Fuel Consumption vs Hull Fouling"
 )
 
 st.altair_chart(fuel_chart, use_container_width=True)
 
-st.subheader("🧭 3D Ship Hull Visualization")
+st.subheader(" 3D Ship Hull Visualization")
 # Display the 3D plotly figure from hull3d.py
 st.plotly_chart(hull_3d_figure(), use_container_width=True)
 
-st.subheader("🛳️ Fouled Hull Visualization")
+st.subheader(" Fouled Hull Visualization")
 t = st.slider("Fouling level (0 = clean, 1 = heavy)", 0.0, 1.0, 0.7)
 fig = hull_fouled_figure(t=t)
 st.plotly_chart(fig, use_container_width=True)
