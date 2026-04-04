@@ -87,11 +87,9 @@ def run():
     st.header("NNIT Student Support System")
     st.title("📚 Nigerian Navy Institute of Technology: Student Support Chatbot")
     st.write("Ask about exams, assignments, library, registration, etc.")
-
     user_input = st.text_input("Type your question here:")
-
-    if user_input:
-        text = user_input.lower()
+    if user_input:        # only run this if the user typed something
+        text = user_input.lower()   # define text safely
     # Simple keyword rule-based detection
     if "exam" in text:
         if any(word in text for word in ["2nd", "second", "sem 2", "semester 2"]):
