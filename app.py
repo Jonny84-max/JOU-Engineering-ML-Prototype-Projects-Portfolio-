@@ -1,9 +1,10 @@
-# app.py
 import streamlit as st
+import importlib
 
 st.title("My Engineering ML Projects Portfolio")
 st.sidebar.title("Select a Project")
 
+# Sidebar project selection
 choice = st.sidebar.radio("Projects:", [
     "NNIT Student Support System",
     "Predictive Maintenance for Marine Engines",
@@ -11,22 +12,25 @@ choice = st.sidebar.radio("Projects:", [
     "User-Friendly Interactive Chatbot"
 ])
 
-# Placeholder container
-project_placeholder = st.empty()
+# Dictionary of project modules
+projects = {
+    "NNIT Student Support System": "nnit_students_chatbot",
+    "Predictive Maintenance for Marine Engines": "predictive_maintenance_marine_engine",
+    "Hull Biofouling Predictor and Optimizer": "hull_biofouling_prediction",
+    "User-Friendly Interactive Chatbot": "user_interactive_chatbot"
+}
 
-# Dynamically load the project
-if choice == "NNIT Student Support System":
-    with project_placeholder:
-        import nnit_students_chatbot  # This module runs top-level Streamlit code
+# Placeholder container for dynamic project rendering
+placeholder = st.empty()
 
-elif choice == "Predictive Maintenance for Marine Engines":
-    with project_placeholder:
-        import predictive_maintenance_marine_engine
+# Dynamically load the selected project
+module_name = projects[choice]
 
-elif choice == "Hull Biofouling Predictor and Optimizer":
-    with project_placeholder:
-        import hull_biofouling_prediction
-
-elif choice == "User-Friendly Interactive Chatbot":
-    with project_placeholder:
-        import user_interactive_chatbot
+with placeholder:
+    try:
+        # Import the module
+        module = importlib.import_module(module_name)
+        # Reload to make sure changes or new selection runs
+        importlib.reload(module)
+    except Exception as e:
+        st.error(f"Error loading project '{choice}': {e}")
