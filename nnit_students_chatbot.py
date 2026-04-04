@@ -89,8 +89,8 @@ def run():
     if user_input:
         text = user_input.lower()
         matched_intent = None
-
-        # Keyword + fuzzy matching
+        
+        # FIRST: check keywords for semester-specific questions
         for intent_key, keywords in keyword_map.items():
             for kw in keywords:
                 if kw in text or get_close_matches(text, [kw], cutoff=0.8):
@@ -98,6 +98,14 @@ def run():
                     break
             if matched_intent:
                 break
+        # SECOND: if no keyword match AND user asked "exam" without specifying semester
+        if not matched_intent and "exam" in text:
+            matched_intent = upcoming_semester  # fallback to current/upcoming semester
+
+        # THIRD: fallback to ML model if nothing matched
+        if not matched_intent:
+            input_vec = vectorizer.transform([text])
+            matched_intent = model.predict(input_vec)[0]
 
         # ML fallback
         if not matched_intent:
@@ -107,6 +115,6 @@ def run():
         # Friendly fallback answer
         answer = responses.get(
             matched_intent,
-            "I’m still learning! 😅 I can help with exams, assignments, library info, registration, or tutoring. Can you try asking about one of these?"
+            "Hmm, I’m not sure about that yet 🤔. I can help with other things like exams, assignments, library info, registration, or tutoring. would you want assistance in any of these areas?"
         )
-        st.write(f"**Bot:** {answer}")
+        st.write(f"Bot: {answer}")
