@@ -92,9 +92,9 @@ def run():
         text = user_input.lower()   # define text safely
     # Simple keyword rule-based detection
     if "exam in text":
-        if any(word in text for word in ["2nd", "second", "sem 2", "semester 2"]):
+        if any(word in "text" for word in ["2nd", "second", "sem 2", "semester 2"]):
             intent = "2nd Semester exam"
-        elif any(word in text for word in ["1st", "first", "sem 1", "semester 1"]):
+        elif any(word in "text" for word in ["1st", "first", "sem 1", "semester 1"]):
             intent = "1st Semester exam"
         else:
             intent = "1st Semester exam"
