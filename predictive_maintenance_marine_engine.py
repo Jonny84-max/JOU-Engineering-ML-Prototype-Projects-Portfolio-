@@ -112,16 +112,16 @@ def run():
         st.write(f"Maintenance Probability: {prob:.2f}")
         st.write(f"Risk Zone: :{color}[{zone}]")
 
-        if rule_flag:
+    if rule_flag:
         st.warning("Rule-based threshold triggered")
 
-        if decision:
+    if decision:
             st.error("Maintenance Needed")
-        else:
+    else:
             st.success("No Maintenance Needed")
 
-        st.subheader(" Risk Visualization")
-        plot_risk_bar(score)
+    st.subheader(" Risk Visualization")
+    plot_risk_bar(score)
 
-        st.subheader(" Scatter Analysis")
-        plot_scatter(temp, vib)
+    st.subheader(" Scatter Analysis")
+    plot_scatter(temp, vib)
