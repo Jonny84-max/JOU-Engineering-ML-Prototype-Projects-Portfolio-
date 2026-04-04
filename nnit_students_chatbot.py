@@ -1,4 +1,3 @@
-def run():
 import datetime
 import streamlit as st
 import joblib
@@ -8,7 +7,8 @@ model = joblib.load("chatbot_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
 # Function to generate exam schedule
-def get_exam_details(month, start_week):
+def run():
+    def get_exam_details(month, start_week):
     """
     Generates a 2-week exam schedule (weekdays only)
     Returns: first_day, last_day, countdown, show_days, list of exam_days
@@ -35,8 +35,8 @@ def get_exam_details(month, start_week):
     
     return first_exam_day, last_exam_day, countdown, show_days, exam_days
 
-# Format exam response
-def format_exam_response(start, end, countdown, show_days, days):
+    # Format exam response
+    def format_exam_response(start, end, countdown, show_days, days):
     response = f"Exam Schedule:\n {start.strftime('%d %B %Y')} – {end.strftime('%d %B %Y')}."
     if countdown:
         response += f" {countdown}."
@@ -46,19 +46,19 @@ def format_exam_response(start, end, countdown, show_days, days):
         response += f"\n\nExam Days (Weekdays only):\n{day_list}"
     return response
 
-# Determine upcoming semester dynamically
-today = datetime.date.today()
-if today.month <= 6:
+    # Determine upcoming semester dynamically
+    today = datetime.date.today()
+    if today.month <= 6:
     # Upcoming semester is 1st semester (March)
     f_start, f_end, f_count, f_show_days, f_days = get_exam_details(3, 1)
     upcoming_semester = "1st Semester exam"
-else:
+    else:
     # Upcoming semester is 2nd semester (August)
     s_start, s_end, s_count, s_show_days, s_days = get_exam_details(8, 3)
     upcoming_semester = "2nd Semester exam"
 
-# Build responses
-responses = {
+    # Build responses
+    responses = {
     "1st Semester exam": format_exam_response(f_start, f_end, f_count, f_show_days, f_days) if today.month <= 6 else "",
     "2nd Semester exam": format_exam_response(s_start, s_end, s_count, s_show_days, s_days) if today.month > 6 else "",
     "assignment and project deadlines": "Assignment and Project Deadlines:\n- Assignment due: May 25, 2026\n- Project due: June 12, 2026",
