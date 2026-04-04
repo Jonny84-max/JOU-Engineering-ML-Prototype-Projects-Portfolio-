@@ -1,6 +1,4 @@
-# app.py
-# NNIT Student Support Chatbot - Portfolio-ready, dynamic upcoming semester
-
+def run():
 import datetime
 import streamlit as st
 import joblib
