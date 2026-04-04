@@ -15,7 +15,7 @@ def Python_Chatbot(name):
     return f"Nice to meet you, {name}! Today's date is {date} and the current time in WAT is {time}." # return greeting + current date and time
     
 # Streamlit interface
-def run():
+def run_streamlit():
     st.title(Title_)
     st.text(Description_)  # reuse common description
     name = st.text_input("Hello! What is your name?")   # Get user input
