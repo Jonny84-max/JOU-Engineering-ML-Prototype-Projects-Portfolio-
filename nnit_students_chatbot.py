@@ -1,6 +1,7 @@
 import datetime
 import streamlit as st
 import joblib
+from difflib import get_close_matches  # Needed for fuzzy matching
 
 # Load model and vectorizer
 model = joblib.load("chatbot_model.pkl")
@@ -37,7 +38,6 @@ def get_exam_details(month, start_week):
     
     first_exam_day = exam_days[0]
     last_exam_day = exam_days[-1]
-
     today = datetime.date.today()
     days_to_start = (first_exam_day - today).days
     countdown = f"Exam starts in {days_to_start} days" if days_to_start > 0 else ""
@@ -56,25 +56,22 @@ def format_exam_response(start, end, countdown, show_days, days):
 
 # Main function to run the app
 def run():
-    st.title("Nigerian Navy Institute of Technology: Student Support System")
+    st.title("📚 Nigerian Navy Institute of Technology: Student Support System")
     st.write("Ask about exams, assignments, library, registration, etc.")
-    
+
     # Determine upcoming semester
     today = datetime.date.today()
+    responses = {}
     if today.month <= 6:
         f_start, f_end, f_count, f_show_days, f_days = get_exam_details(3, 1)
+        responses["1st Semester exam"] = format_exam_response(f_start, f_end, f_count, f_show_days, f_days)
         upcoming_semester = "1st Semester exam"
     else:
         s_start, s_end, s_count, s_show_days, s_days = get_exam_details(8, 3)
+        responses["2nd Semester exam"] = format_exam_response(s_start, s_end, s_count, s_show_days, s_days)
         upcoming_semester = "2nd Semester exam"
 
-    # Build responses
-    responses = {}
-    if today.month <= 6:
-        responses["1st Semester exam"] = format_exam_response(f_start, f_end, f_count, f_show_days, f_days)
-    else:
-        responses["2nd Semester exam"] = format_exam_response(s_start, s_end, s_count, s_show_days, s_days)
-    
+    # Add other info
     responses.update({
         "assignment and project deadlines": "Assignment and Project Deadlines:\n- Assignment due: May 25, 2026\n- Project due: June 12, 2026",
         "library": "Library Hours:\n- Weekdays: 8:00 AM – 6:00 PM\n- Weekends: 10:00 AM – 4:00 PM",
@@ -88,25 +85,28 @@ def run():
     })
 
     # User input
-    user_input = st.text_input("Type your question here:")    
+    user_input = st.text_input("Type your question here:")
     if user_input:
-    text = user_input.lower()
-    matched_intent = None
+        text = user_input.lower()
+        matched_intent = None
 
-    # Keyword + fuzzy match
-    for intent_key, keywords in keyword_map.items():
-        for kw in keywords:
-            if kw in text or get_close_matches(text, [kw], cutoff=0.8):
-                matched_intent = intent_key
+        # Keyword + fuzzy matching
+        for intent_key, keywords in keyword_map.items():
+            for kw in keywords:
+                if kw in text or get_close_matches(text, [kw], cutoff=0.8):
+                    matched_intent = intent_key
+                    break
+            if matched_intent:
                 break
-        if matched_intent:
-            break
 
-    # ML fallback
-    if not matched_intent:
-        input_vec = vectorizer.transform([text])
-        matched_intent = model.predict(input_vec)[0]
+        # ML fallback
+        if not matched_intent:
+            input_vec = vectorizer.transform([text])
+            matched_intent = model.predict(input_vec)[0]
 
-    # Final answer
-    answer = responses.get(matched_intent, "Hmm, I’m not sure about that yet 🤔. I can help with other things like exams, assignments, library info, registration, or tutoring. would you want assistance in any of these areas.")
-    st.write(f"**Bot:** {answer}")
+        # Friendly fallback answer
+        answer = responses.get(
+            matched_intent,
+            "I’m still learning! 😅 I can help with exams, assignments, library info, registration, or tutoring. Can you try asking about one of these?"
+        )
+        st.write(f"**Bot:** {answer}")
