@@ -8,4 +8,4 @@ gradio
 altair
 plotly
 sklearn
-logistic regression
+logistic_regression
