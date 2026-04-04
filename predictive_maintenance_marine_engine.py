@@ -97,13 +97,13 @@ def plot_risk_bar(score):
 
 #  Streamlit UI
 def run():
-st.title(" Predictive Maintenance System")
-temp = st.number_input("Temperature", value=80.0)
-vib = st.number_input("Vibration", value=0.5)
-pres = st.number_input("Pressure", value=30.0)
+    st.title(" Predictive Maintenance System")
+    temp = st.number_input("Temperature", value=80.0)
+    vib = st.number_input("Vibration", value=0.5)
+    pres = st.number_input("Pressure", value=30.0)
 
-if st.button("Check Maintenance"):
-    decision, prob, rule_flag = decision_system(temp, vib, pres)
+    if st.button("Check Maintenance"):
+        decision, prob, rule_flag = decision_system(temp, vib, pres)
 
     score = risk_score(temp, vib, pres)
     zone, color = risk_zone(score)
