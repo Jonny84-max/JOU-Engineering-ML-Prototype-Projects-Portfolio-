@@ -1,8 +1,8 @@
 import streamlit as st
-import nnit_students_chatbot    # copy code from NNIT-Students-Support-System
-import predictive_maintenance_marine_engine  # copy code from NNIT-Students-Support-System
-import hull_biofouling_Prediction    # copy code from NNIT-Students-Support-System
-import user_interactive_chatbot     # copy code from Python_Chatbot
+import nnit_students_chatbot    
+import predictive_maintenance_marine_engine 
+import hull_biofouling_Prediction   
+import user_interactive_chatbot     
 
 st.title("My Engineering ML Projects Portfolio")
 st.sidebar.title("Select a Project")
