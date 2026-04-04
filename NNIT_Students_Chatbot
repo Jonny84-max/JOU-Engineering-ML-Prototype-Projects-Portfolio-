@@ -6,9 +6,6 @@ import joblib
 model = joblib.load("chatbot_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
-def run():
-    st.header("NNIT Student Support System")
-
 # Function to generate exam schedule
 def get_exam_details(month, start_week):
     """
@@ -45,6 +42,9 @@ def get_exam_details(month, start_week):
 
     # Return all required info
     return first_exam_day, last_exam_day, countdown, show_days, exam_days
+
+def run():
+    st.header("NNIT Student Support System")
 
 # Generate schedules
 f_start, f_end, f_count, f_show_days, f_days = get_exam_details(3, 1)   # 1st sem: March, 1st week
