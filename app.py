@@ -4,8 +4,8 @@ import predictive_maintenance_marine_engine
 import hull_biofouling_prediction
 import user_interactive_chatbot
 
-st.title("My Engineering ML Projects Portfolio")
-st.sidebar.title("Select a Project")
+st.title("JOU Engineering and ML Prototype Projects Portfolio")
+st.sidebar.title("Select a Project to interact with")
 
 choice = st.sidebar.radio("Projects:", [
     "NNIT Student Support System",
