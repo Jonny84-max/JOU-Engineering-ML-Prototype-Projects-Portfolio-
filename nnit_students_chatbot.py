@@ -22,8 +22,8 @@ keyword_map = {
     "support_contact": ["support", "helpdesk", "office hours"]
 }
 
-# Helper functions
-def get_exam_details(month, start_week):
+def run():
+    # get_exam_details(month, start_week)
     year = datetime.datetime.now().year
     first_day = datetime.date(year, month, 1)
     first_monday = first_day + datetime.timedelta(days=(7 - first_day.weekday()) % 7)
@@ -44,7 +44,7 @@ def get_exam_details(month, start_week):
     show_days = 0 < days_to_start <= 7
     return first_exam_day, last_exam_day, countdown, show_days, exam_days
 
-def format_exam_response(start, end, countdown, show_days, days):
+    # format_exam_response(start, end, countdown, show_days, days)
     response = f"Exam Schedule:\n {start.strftime('%d %B %Y')} – {end.strftime('%d %B %Y')}."
     if countdown:
         response += f" {countdown}."
@@ -54,8 +54,7 @@ def format_exam_response(start, end, countdown, show_days, days):
         response += f"\n\nExam Days (Weekdays only):\n{day_list}"
     return response
 
-# Main function to run the app
-def run():
+    # Main function to run the app
     st.title("📚 Nigerian Navy Institute of Technology: Student Support System")
     st.write("Ask about exams, assignments, library, registration, etc.")
 
