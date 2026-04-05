@@ -37,8 +37,8 @@ def run_gradio():
 # Platform selection and execution
 platform = "streamlit"  # change to "gradio" to run Gradio
 if platform.lower() == "gradio":
-    run_gradio()
+    user_interaction_chatbot.run_gradio()
 elif platform.lower() == "streamlit":
-    run_streamlit()  # <-- THIS CALL ACTUALLY RUNS THE STREAMLIT APP
+    user_interaction_chatbot.run_streamlit()  # <-- THIS CALL ACTUALLY RUNS THE STREAMLIT APP
 else:
     print("Unknown platform! Choose 'gradio' or 'streamlit'.")
