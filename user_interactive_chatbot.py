@@ -6,39 +6,39 @@ import gradio as gr     # gradio interface
 Title_ = "Python_Chatbot"
 Description_ = "A simple chatbot that greets you and shows the current date and time in WAT."
 
-# simple function that takes user's name and responds
+# Chatbot logic
 def Python_Chatbot(name):
-    wat = datetime.timezone(datetime.timedelta(hours=1))  # set timezone to West Africa Time (UTC+1)
-    now = datetime.datetime.now(wat) # get current time in WAT
+    wat = datetime.timezone(datetime.timedelta(hours=1))  # WAT timezone
+    now = datetime.datetime.now(wat)  # current time in WAT
     date = now.strftime('%B %d, %Y')
     time = now.strftime('%I:%M %p')
-    return f"Nice to meet you, {name}! Today's date is {date} and the current time in WAT is {time}." # return greeting + current date and time
-    
+    return f"Nice to meet you, {name}! Today's date is {date} and the current time in WAT is {time}."
+
 # Streamlit interface
 def run_streamlit():
     st.title(Title_)
-    st.text(Description_)  # reuse common description
-    name = st.text_input("Hello! What is your name?")   # Get user input
+    st.text(Description_)  # show description
+    name = st.text_input("Hello! What is your name?")  # user input
     if name:
-        response = Python_Chatbot(name)  # Respond when button is pressed
-        st.text(response)   # chatbot reply
+        response = Python_Chatbot(name)  # generate response
+        st.text(response)  # show chatbot reply
 
-# Gradio Interface
+# Gradio interface
 def run_gradio():
     iface = gr.Interface(
-        fn=Simple_chatbot,
+        fn=Python_Chatbot,  # fixed the function name
         inputs=gr.Textbox(label="Hello! What is your name?"),
         outputs=gr.Textbox(label="Response"),
         title="Python_Chatbot (Gradio)",
-        description="descripton_"  # reuse common description
+        description=Description_  # reuse description
     )
-    iface.launch()  # Launch Gradio app
+    iface.launch()
 
-# Choose Platform
-platform = "streamlit"  # change to "gradio" to run Gradio instead
+# Platform selection and execution
+platform = "streamlit"  # change to "gradio" to run Gradio
 if platform.lower() == "gradio":
     run_gradio()
 elif platform.lower() == "streamlit":
-    run_streamlit()
+    run_streamlit()  # <-- THIS CALL ACTUALLY RUNS THE STREAMLIT APP
 else:
     print("Unknown platform! Choose 'gradio' or 'streamlit'.")
