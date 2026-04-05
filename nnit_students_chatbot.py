@@ -60,17 +60,23 @@ def run():
     st.write("Ask about exams, assignments, library, registration, etc.")
 
     # Determine upcoming semester
+    
     today = datetime.date.today()
-    responses = {}
-    if today.month <= 6:
-        f_start, f_end, f_count, f_show_days, f_days = get_exam_details(3, 1)
-        responses["1st Semester exam"] = format_exam_response(f_start, f_end, f_count, f_show_days, f_days)
-        upcoming_semester = "1st Semester exam"
+    days_to_start = (first_exam_day - today).days
+    if days_to_start > 0:
+        countdown = f"Exam starts in {days_to_start} days"
+        show_days = days_to_start <= 7    # Show full exam days only if <7 days
     else:
-        s_start, s_end, s_count, s_show_days, s_days = get_exam_details(8, 3)
-        responses["2nd Semester exam"] = format_exam_response(s_start, s_end, s_count, s_show_days, s_days)
-        upcoming_semester = "2nd Semester exam"
+        countdown = ""  # Neutral if exam started or passed
+        show_days = False
 
+    # Return all required info
+    return first_exam_day, last_exam_day, countdown, show_days, exam_days
+
+    # Generate schedules
+    f_start, f_end, f_count, f_show_days, f_days = get_exam_details(3, 1)   # 1st sem: March, 1st week
+    s_start, s_end, s_count, s_show_days, s_days = get_exam_details(8, 3)   # 2nd sem: August, 3rd week 
+    
     # Add other info
     responses.update({
         "1st Semester exam": f" First Semester Exam Schedule:\n {f_start.strftime('%d %B %Y')} – {f_end.strftime('%d %B %Y')}\n{f_count}\n{f_days}\n Daily start time: 9:00 AM",
