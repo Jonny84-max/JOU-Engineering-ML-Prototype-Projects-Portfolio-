@@ -141,3 +141,5 @@ def run():
     st.subheader("Fouled Hull Visualization")
     t = st.slider("Fouling level (0 = clean, 1 = heavy)", 0.0, 1.0, 0.7)
     st.plotly_chart(hull_fouled_figure(t=t), use_container_width=True)
+    if __name__ == "__main__":
+    run()
